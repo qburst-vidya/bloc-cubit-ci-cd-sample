@@ -1,0 +1,42 @@
+name: Flutter CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.29.3'  # you can adjust this to your version
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Analyze Dart code
+      run: flutter analyze
+
+    - name: Run tests
+      run: flutter test
+
+    # Optional: Build APK (if Android)
+    - name: Build APK
+      run: flutter build apk --release
+
+    # Optional: Build iOS (if needed and if your GitHub runner has signing capabilities)
+    # - name: Build iOS
+    #   run: flutter build ios --release
+
